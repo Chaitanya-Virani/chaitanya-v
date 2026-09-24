@@ -1,12 +1,5 @@
 import { FadeIn } from "./FadeIn";
-
-const servicesData = [
-  { id: 1, number: "01", title: "Agentic AI Systems", description: "Design and build multi-agent pipelines that plan, reason, and act autonomously on real-world tasks." },
-  { id: 2, number: "02", title: "Real-Time ML Backends", description: "FastAPI + scikit-learn inference systems with live retraining, drift detection, and admin dashboards." },
-  { id: 3, number: "03", title: "Embedded AI", description: "Deploy intelligence onto constrained hardware — ESP32, edge devices, and custom communication protocols." },
-  { id: 4, number: "04", title: "Automation Pipelines", description: "End-to-end workflow automation connecting APIs, models, and databases into self-running systems." },
-  { id: 5, number: "05", title: "Interactive AI Interfaces", description: "Live, streaming front-ends that make AI output legible, beautiful, and actually usable." }
-];
+import { capabilities } from "../data/profile";
 
 export const ServicesSection = () => {
   return (
@@ -18,19 +11,33 @@ export const ServicesSection = () => {
       </FadeIn>
 
       <div className="max-w-5xl mx-auto">
-        {servicesData.map((service, index) => (
-          <div key={service.id} className="border-b border-[rgba(12,12,12,0.15)]">
+        {capabilities.map((item, index) => (
+          <div key={item.title} className="border-b border-[rgba(12,12,12,0.15)]">
             <FadeIn delay={index * 0.1} y={10}>
-              <div className="flex items-start gap-8 py-8 sm:py-10 md:py-12">
+              <div className="flex items-start gap-5 sm:gap-8 py-8 sm:py-10 md:py-12">
                 <div className="font-black text-[#0C0C0C] leading-none text-[clamp(3rem,10vw,140px)]">
-                  {service.number}
+                  {String(index + 1).padStart(2, "0")}
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-[#0C0C0C] font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)]">
-                    {service.title}
+                    {item.title}
                   </h3>
                   <p className="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[oklch(40%_0.01_260)]">
-                    {service.description}
+                    {item.description}
+                  </p>
+                  <p className="mt-3 text-[clamp(0.8rem,1.3vw,1rem)] text-[oklch(40%_0.01_260)]">
+                    Shown in{" "}
+                    {item.proof.map((p, i) => (
+                      <span key={p.href + p.label}>
+                        {i > 0 && ", "}
+                        <a
+                          href={p.href}
+                          className="font-medium text-[#0C0C0C] underline decoration-[#0C0C0C]/30 underline-offset-4 hover:decoration-[#0C0C0C] transition-colors duration-300"
+                        >
+                          {p.label}
+                        </a>
+                      </span>
+                    ))}
                   </p>
                 </div>
               </div>

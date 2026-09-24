@@ -1,5 +1,6 @@
 import { FadeIn } from "./FadeIn";
 import { AnimatedText } from "./AnimatedText";
+import { profile } from "../data/profile";
 
 export const AboutSection = () => {
   return (
@@ -39,7 +40,7 @@ export const AboutSection = () => {
       </FadeIn>
 
       {/* Center content */}
-      <div className="flex flex-col items-center gap-8 sm:gap-12 md:gap-16 z-10 max-w-[600px]">
+      <div className="flex flex-col items-center gap-8 sm:gap-12 md:gap-16 z-10 max-w-[680px]">
         <FadeIn delay={0} y={40}>
           <h2 className="hero-heading font-black uppercase leading-none tracking-tight text-center text-[clamp(3rem,12vw,160px)]">
             About me
@@ -47,9 +48,9 @@ export const AboutSection = () => {
         </FadeIn>
 
         <AnimatedText
-          className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[560px] text-[clamp(0.95rem,2vw,1.35rem)]"
+          className="text-[#D7E2EA] font-medium text-center leading-relaxed max-w-[640px] text-[clamp(0.95rem,2vw,1.35rem)]"
         >
-          An ICT student obsessed with building AI systems that don't just predict — they act. i focus on agentic pipelines, real-time automation, and embedded intelligence. Let's build something that thinks together!
+          {profile.about}
         </AnimatedText>
       </div>
     </section>

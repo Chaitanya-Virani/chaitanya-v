@@ -1,95 +1,78 @@
 import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { tools } from "../data/profile";
 
-const techs = [
-  { name: "Anthropic",    slug: "anthropic" },
-  { name: "OpenAI",       slug: "openai" },
-  { name: "AWS",          slug: "amazonwebservices" },
-  { name: "Azure",        slug: "microsoftazure" },
-  { name: "Google Cloud", slug: "googlecloud" },
-  { name: "Python",       slug: "python" },
-  { name: "FastAPI",      slug: "fastapi" },
-  { name: "React",        slug: "react" },
-  { name: "TypeScript",   slug: "typescript" },
-  { name: "Next.js",      slug: "nextdotjs" },
-  { name: "Docker",       slug: "docker" },
-  { name: "Kubernetes",   slug: "kubernetes" },
-  { name: "PostgreSQL",   slug: "postgresql" },
-  { name: "Redis",        slug: "redis" },
-  { name: "PyTorch",      slug: "pytorch" },
-  { name: "TensorFlow",   slug: "tensorflow" },
-  { name: "Hugging Face", slug: "huggingface" },
-  { name: "Tailwind CSS", slug: "tailwindcss" },
-  { name: "Vercel",       slug: "vercel" },
-  { name: "MongoDB",      slug: "mongodb" },
-  { name: "Supabase",     slug: "supabase" },
-  { name: "Scikit-learn", slug: "scikitlearn" },
-  { name: "LangChain",    slug: "langchain" },
-  { name: "GitHub",       slug: "github" },
-  { name: "Node.js",      slug: "nodedotjs" },
-  { name: "Ollama",       slug: "ollama" },
-];
+// Pinned so an upstream icon rename can't silently break the strip.
+const ICON_CDN = "https://cdn.jsdelivr.net/npm/simple-icons@16.32.0/icons";
 
 // brightness(0) collapses every brand colour to black, invert(1) flips it to white.
-// This works on any SimpleIcons SVG regardless of brand colour or CDN version.
 const ICON_FILTER = "brightness(0) invert(1)";
 
 const LogoCard = ({ name, slug }: { name: string; slug: string }) => (
   <div className="flex-shrink-0 flex flex-col items-center justify-center gap-2 md:gap-3
                   w-[110px] h-[80px] md:w-[180px] md:h-[120px]">
     <img
-      src={`https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`}
-      alt={name}
+      src={`${ICON_CDN}/${slug}.svg`}
+      alt=""
+      width={56}
+      height={56}
       loading="lazy"
+      decoding="async"
       className="h-9 w-auto md:h-14"
       style={{ filter: ICON_FILTER }}
     />
-    <span className="text-[rgba(215,226,234,0.4)] text-[0.5rem] md:text-[0.6rem] uppercase tracking-widest font-mono">
+    <span className="text-[#D7E2EA]/55 text-[0.6rem] md:text-[0.7rem] uppercase tracking-widest">
       {name}
     </span>
   </div>
 );
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+};
+
 export const MarqueeSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const sectionTop =
-        containerRef.current.getBoundingClientRect().top + window.scrollY;
-      const multiplier = window.innerWidth < 768 ? 0.12 : 0.3;
-      const newOffset = (window.scrollY - sectionTop + window.innerHeight) * multiplier;
-      setOffset(newOffset);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Scroll-linked drift driven by motion values: no React re-render per scroll event.
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+  const travel = prefersReducedMotion ? 0 : isMobile ? 140 : 320;
+  // Both rows stay at x <= 0 while visible, so neither row shows an empty gap on the left.
+  const rowOneX = useTransform(scrollYProgress, [0, 1], [-320, -320 + travel]);
+  const rowTwoX = useTransform(scrollYProgress, [0, 1], [-40, -40 - travel]);
 
-  const tripled = [...techs, ...techs, ...techs];
+  const doubled = [...tools, ...tools];
+  const rowTwo = [...doubled.slice(7), ...doubled.slice(0, 7)];
 
   return (
-    <section className="bg-[#0C0C0C] pt-12 sm:pt-20 md:pt-32 pb-6 md:pb-10">
-      <div ref={containerRef} className="relative overflow-hidden">
-        {/* Row 1 — drifts right on scroll */}
-        <div
-          className="flex flex-nowrap gap-3 mb-3 will-change-transform"
-          style={{ transform: `translateX(${offset - 200}px)` }}
-        >
-          {tripled.slice(0, 52).map((tech, i) => (
-            <LogoCard key={i} {...tech} />
+    <section aria-labelledby="tools-heading" className="bg-[#0C0C0C] pt-12 sm:pt-20 md:pt-32 pb-6 md:pb-10">
+      <h2 id="tools-heading" className="sr-only">
+        Tools I use: {tools.map((t) => t.name).join(", ")}
+      </h2>
+      <div ref={containerRef} className="relative overflow-hidden" aria-hidden="true">
+        <motion.div className="flex flex-nowrap gap-3 mb-3" style={{ x: rowOneX }}>
+          {doubled.map((tech, i) => (
+            <LogoCard key={`a-${i}`} {...tech} />
           ))}
-        </div>
-
-        {/* Row 2 — drifts left on scroll */}
-        <div
-          className="flex flex-nowrap gap-3 will-change-transform"
-          style={{ transform: `translateX(${-offset + 200}px)` }}
-        >
-          {tripled.slice(10, 62).map((tech, i) => (
-            <LogoCard key={i} {...tech} />
+        </motion.div>
+        <motion.div className="flex flex-nowrap gap-3" style={{ x: rowTwoX }}>
+          {rowTwo.map((tech, i) => (
+            <LogoCard key={`b-${i}`} {...tech} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

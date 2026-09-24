@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { profile } from "../data/profile";
 
 interface ContactButtonProps {
   className?: string;
@@ -7,9 +8,7 @@ interface ContactButtonProps {
 export const ContactButton = ({ className = "" }: ContactButtonProps) => {
   return (
     <motion.a
-      href="mailto:chaitanyavirani125@gmail.com"
-      target="_blank"
-      rel="noopener noreferrer"
+      href={`mailto:${profile.email}?subject=${encodeURIComponent("Hello from your portfolio")}`}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
@@ -22,7 +21,7 @@ export const ContactButton = ({ className = "" }: ContactButtonProps) => {
         boxShadow: "0px 4px 4px rgba(181,1,167,0.25), inset 4px 4px 12px #7721B1",
       }}
     >
-      Contact Me
+      Email me
     </motion.a>
   );
 };

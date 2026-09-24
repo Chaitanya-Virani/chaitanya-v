@@ -14,6 +14,16 @@ html, body, #root, .main-wrapper {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Nav jumps land with a little breathing room above the heading. */
+section[id],
+[id^="project-"] {
+  scroll-margin-top: 1.5rem;
+}
+
 .hero-heading {
   background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
   -webkit-background-clip: text;
@@ -23,4 +33,45 @@ html, body, #root, .main-wrapper {
 
 .main-wrapper {
   overflow-x: clip;
+}
+
+::selection {
+  background: #D7E2EA;
+  color: #0C0C0C;
+}
+
+/* Visible keyboard focus everywhere; dark ring on the white Skills section. */
+:focus-visible {
+  outline: 2px solid #D7E2EA;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+#skills :focus-visible {
+  outline-color: #0C0C0C;
+}
+
+/*
+ * Stacked project cards: sticky only when the screen is wide AND tall enough
+ * for a whole card to fit. Everywhere else the cards simply scroll, so no part
+ * of a card is ever hidden under the next one.
+ */
+@media (min-width: 1024px) and (min-height: 660px) {
+  .project-sticky {
+    position: sticky;
+    min-height: 92vh;
+    margin-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
