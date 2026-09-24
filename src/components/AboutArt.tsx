@@ -175,6 +175,8 @@ export const PacketWaveArt = (props: ArtProps) => (
           />
         ))}
         <motion.path variants={draw} custom={7} d="M20 172 h160" />
+
+        
         <motion.path variants={draw} custom={8} d="M172 166 l8 6 l-8 6" />
       </g>
     )}
