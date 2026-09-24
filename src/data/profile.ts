@@ -9,15 +9,16 @@
 export const profile = {
   name: "Chaitanya Virani",
   tagline: "An AI engineer obsessed with agents that act",
-  status: "Final-year ICT student at PDEU, Ahmedabad. Open to AI engineering roles from 2027.",
   about:
     "I'm a final-year ICT student at PDEU who builds AI systems that act, and I care most about the unglamorous part: checking what a model returns before anything downstream trusts it. This summer I shipped production tools for real clients as an AI Engineer Intern at Clarivis Intelligence.",
   email: "chaitanyavirani125@gmail.com",
   github: "https://github.com/Chaitanya-Virani",
   linkedin: "https://www.linkedin.com/in/chaitanyavirani/",
-  // Must match the file in public/ exactly (Vercel paths are case-sensitive).
-  // Set to "" to hide every Resume link.
-  resume: "/Chaitanya_resume.pdf",
+  // Paste your Google Drive share link between the quotes, for example
+  // "https://drive.google.com/file/d/XXXXXXXX/view?usp=sharing".
+  // In Drive: Share > General access > "Anyone with the link" > Viewer.
+  // Every Resume button stays hidden while this is empty.
+  resume: "https://drive.google.com/file/d/1_Rw7zrLJ9FtIYPl-05zfQlQa2sASGzmp/view?usp=sharing",
 };
 
 export type Highlight = {
@@ -48,13 +49,13 @@ export const experience = {
       text: "n8n workflow that drafts posts, waits for approval over Telegram, writes to Supabase, and triggers a Vercel rebuild through a deploy hook.",
     },
     {
-      title: "AXIOT and SkyAI website rebuilds",
+      title: "Client website redesigns",
       text: "Led redesigns of two client marketing sites, a B2B IoT platform and an AI services company, built with Claude Design and Claude Code and deployed on Vercel.",
     },
   ] as Highlight[],
 };
 
-export const recognition = [
+export const hackathons = [
   {
     label: "Code with Cisco 2026",
     text: "Team lead. Cleared the online assessment and the onsite hackathon in Bengaluru, finishing in the national top 75.",
@@ -62,14 +63,6 @@ export const recognition = [
   {
     label: "HackNUthon",
     text: "6th place.",
-  },
-  {
-    label: "Robotics club, PDEU",
-    text: "Co-Head of Software. Led four junior members and built a self-balancing robot for the techfest.",
-  },
-  {
-    label: "Education",
-    text: "B.Tech in Information and Communication Technology, PDEU, class of 2027, CGPA 8.52. Lateral entry after a diploma in computer engineering.",
   },
 ];
 

@@ -1,5 +1,5 @@
 import { FadeIn } from "./FadeIn";
-import { experience, recognition } from "../data/profile";
+import { experience, hackathons } from "../data/profile";
 
 const isExternal = (href: string) => href.startsWith("http");
 
@@ -62,13 +62,16 @@ export const ExperienceSection = () => {
         </ul>
       </div>
 
-      {/* ── Recognition, leadership, education ── */}
-      <ul className="mt-20 sm:mt-24 md:mt-32 max-w-6xl border-t border-[#D7E2EA]/15">
-        {recognition.map((row, i) => (
+      {/* ── Hackathons ── */}
+      <h3 className="mt-20 sm:mt-24 md:mt-32 mb-4 text-[#D7E2EA] font-medium uppercase tracking-wider text-sm sm:text-base md:text-lg">
+        Hackathons
+      </h3>
+      <ul className="max-w-6xl border-t border-[#D7E2EA]/15">
+        {hackathons.map((row, i) => (
           <li key={row.label} className="border-b border-[#D7E2EA]/15">
             <FadeIn delay={0.05 * i} y={10}>
               <div className="grid gap-1 sm:gap-8 sm:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] py-5 sm:py-6">
-                <h3 className="text-white font-medium text-base sm:text-lg">{row.label}</h3>
+                <h4 className="text-white font-medium text-base sm:text-lg">{row.label}</h4>
                 <p className="text-[#D7E2EA]/75 font-light leading-relaxed max-w-[62ch] text-[clamp(0.95rem,1.2vw,1.1rem)]">
                   {row.text}
                 </p>

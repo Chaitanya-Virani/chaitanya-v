@@ -93,7 +93,7 @@ export const HeroSection = () => {
         </div>
       )}
 
-      {/* ── Tagline + status ── */}
+      {/* ── Tagline ── */}
       <FadeIn delay={0.35} y={20}>
         <div className="relative z-10 pb-8 sm:pb-9 md:pb-10
                         px-5 sm:px-8 md:px-10 pt-3 md:pt-0">
@@ -101,11 +101,6 @@ export const HeroSection = () => {
                         max-w-[200px] sm:max-w-[240px] md:max-w-[260px]
                         text-[clamp(0.65rem,2.8vw,0.9rem)] md:text-[clamp(0.75rem,1.4vw,1.5rem)]">
             {profile.tagline}
-          </p>
-          <p className="mt-3 md:mt-4 text-[#D7E2EA]/60 font-light leading-snug
-                        max-w-[260px] sm:max-w-[320px] md:max-w-[380px]
-                        text-[clamp(0.75rem,2.8vw,0.9rem)] md:text-[clamp(0.8rem,1vw,1.05rem)]">
-            {profile.status}
           </p>
         </div>
       </FadeIn>
